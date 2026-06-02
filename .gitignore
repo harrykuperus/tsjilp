@@ -1,0 +1,70 @@
+# Environment — NEVER commit real .env files
+.env
+.env.local
+.env.*.local
+auth/.env
+assets/.env
+
+# Data — user chats, guest trials, sessions
+data/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# PHP
+vendor/
+composer.phar
+
+# Node / JS
+node_modules/
+
+# Build artifacts (regenerate from source)
+assets/app.min.js
+assets/tsjilp.ui.min.js
+assets/app.min.php
+assets/style-min.css
+assets/style-grouped.css
+assets/style.merged.css
+
+# Logs
+*.log
+logs/
+
+# Uploads / user files
+uploads/
+storage/
+
+# Database dumps
+*.sql
+*.sql.gz
+
+# Docker overrides
+docker-compose.override.yml
+
+# Config overrides
+config.local.php
+
+# Cache
+cache/
+*.cache
+
+# Session files
+sessions/
+
+# Temporary files
+tmp/
+temp/
+
+# Auth session files (contain real user data)
+auth/*.json-e 
+# SSH keys
+tsjilp
+tsjilp.pub

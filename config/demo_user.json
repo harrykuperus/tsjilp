@@ -1,0 +1,25 @@
+{
+  "user": {
+    "name": "Demo",
+    "lastname": "User",
+    "initials": "DU",
+    "avatar_enabled": true,
+    "language": "en",
+    "languages": ["nl", "de", "es", "it", "en"],
+    "country": "Italy",
+    "age_range": "55-65",
+    "gender": "male",
+    "domain": "technical",
+    "communication_style": "practical",
+    "assistant_enabled": false,
+    "assistant_provider": "ChatGPT",
+    "assistant_api_key": "",
+    "assistant_api_keys": {
+      "ChatGPT": "",
+      "Gemini": "",
+      "Claude": ""
+    },
+    "assistant": "luca",
+    "assistant_profile_prompt": ""
+  }
+}

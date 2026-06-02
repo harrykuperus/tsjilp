@@ -1,0 +1,16 @@
+{
+  "ui": {
+    "theme": "light",
+    "font_size": "medium",
+    "chat_layout": "split",
+    "assistant_position": "left",
+    "user_position": "right",
+    "show_timeline": true,
+    "show_assist": true,
+    "show_sticky_notes": true,
+    "animations": {
+      "demo_typing": true,
+      "message_delay": 600
+    }
+  }
+}

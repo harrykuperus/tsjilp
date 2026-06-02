@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TalkTo — AI-Assisted Conversations</title>
+  <meta name="description" content="TalkTo is a new communication layer for AI-assisted conversations: structured, clear, human-centered digital communication." />
+  <style>
+    :root{
+      --bg:#0b1020;
+      --bg2:#11182d;
+      --card:#161f38;
+      --card2:#1b2645;
+      --text:#eaf0ff;
+      --muted:#a8b3d1;
+      --line:rgba(255,255,255,0.10);
+      --accent:#5aa6ff;
+      --accent2:#78c3ff;
+      --ok:#7ad89a;
+      --warn:#ffd56a;
+      --shadow:0 18px 50px rgba(0,0,0,0.35);
+      --radius:18px;
+      --max:1100px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at top right, rgba(90,166,255,0.18), transparent 28%),
+        radial-gradient(circle at top left, rgba(120,195,255,0.09), transparent 24%),
+        linear-gradient(180deg, var(--bg), #0a0f1b 100%);
+      color:var(--text);
+      line-height:1.6;
+    }
+
+    a{color:var(--accent2); text-decoration:none}
+    a:hover{text-decoration:underline}
+
+    .container{
+      width:min(var(--max), calc(100% - 40px));
+      margin:0 auto;
+    }
+
+    header{
+      position:sticky;
+      top:0;
+      z-index:50;
+      backdrop-filter:blur(10px);
+      background:rgba(9,13,24,0.72);
+      border-bottom:1px solid var(--line);
+    }
+
+    .nav{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:20px;
+      min-height:72px;
+    }
+
+    .logo{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      font-weight:700;
+      font-size:20px;
+      color:#fff;
+    }
+
+    .logo-badge{
+      width:38px;
+      height:38px;
+      border-radius:12px;
+      background:linear-gradient(135deg, var(--accent), var(--accent2));
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#08111f;
+      font-weight:700;
+      box-shadow:var(--shadow);
+    }
+
+    .nav-links{
+      display:flex;
+      gap:18px;
+      flex-wrap:wrap;
+    }
+
+    .nav-links a{
+      color:var(--muted);
+      font-size:14px;
+    }
+
+    .hero{
+      padding:72px 0 48px;
+    }
+
+    .hero-grid{
+      display:grid;
+      grid-template-columns:1.15fr 0.85fr;
+      gap:34px;
+      align-items:center;
+    }
+
+    .eyebrow{
+      display:inline-block;
+      padding:7px 12px;
+      border:1px solid rgba(90,166,255,0.28);
+      background:rgba(90,166,255,0.08);
+      color:var(--accent2);
+      border-radius:999px;
+      font-size:13px;
+      font-weight:700;
+      letter-spacing:.02em;
+      margin-bottom:16px;
+    }
+
+    h1{
+      margin:0 0 16px;
+      font-size:52px;
+      line-height:1.06;
+      letter-spacing:-0.03em;
+    }
+
+    .hero p{
+      color:var(--muted);
+      font-size:19px;
+      max-width:760px;
+      margin:0 0 18px;
+    }
+
+    .positioning{
+      margin:22px 0 0;
+      padding:18px 20px;
+      background:linear-gradient(180deg, rgba(90,166,255,0.10), rgba(90,166,255,0.04));
+      border:1px solid rgba(90,166,255,0.22);
+      border-radius:16px;
+      box-shadow:var(--shadow);
+    }
+
+    .positioning strong{
+      display:block;
+      font-size:13px;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      color:var(--accent2);
+      margin-bottom:6px;
+    }
+
+    .positioning .line{
+      font-size:24px;
+      line-height:1.35;
+      color:#fff;
+      font-weight:700;
+    }
+
+    .hero-card{
+      background:linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      border:1px solid var(--line);
+      border-radius:24px;
+      padding:24px;
+      box-shadow:var(--shadow);
+    }
+
+    .mini-app{
+      background:linear-gradient(180deg, #18233f, #111a30);
+      border:1px solid rgba(255,255,255,0.08);
+      border-radius:18px;
+      overflow:hidden;
+    }
+
+    .mini-top{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      padding:14px 16px;
+      border-bottom:1px solid var(--line);
+      background:rgba(255,255,255,0.03);
+    }
+
+    .dot{width:10px;height:10px;border-radius:50%}
+    .dot.red{background:#ff6f6f}
+    .dot.yellow{background:#f8cb5c}
+    .dot.green{background:#74db94}
+
+    .mini-body{
+      display:grid;
+      grid-template-columns:180px 1fr;
+      min-height:390px;
+    }
+
+    .mini-sidebar{
+      border-right:1px solid var(--line);
+      padding:14px;
+      background:rgba(255,255,255,0.02);
+    }
+
+    .side-title{
+      font-size:12px;
+      color:var(--muted);
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      margin-bottom:10px;
+    }
+
+    .chat-item{
+      background:rgba(255,255,255,0.04);
+      border:1px solid rgba(255,255,255,0.06);
+      border-radius:12px;
+      padding:10px 12px;
+      margin-bottom:10px;
+      font-size:14px;
+    }
+
+    .chat-item.active{
+      border-color:rgba(90,166,255,0.45);
+      background:rgba(90,166,255,0.11);
+    }
+
+    .blue-dot{
+      display:inline-block;
+      width:9px;
+      height:9px;
+      border-radius:50%;
+      background:var(--accent2);
+      margin-left:6px;
+      vertical-align:middle;
+      box-shadow:0 0 12px rgba(120,195,255,0.9);
+    }
+
+    .mini-chat{
+      padding:16px;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+
+    .msg{
+      max-width:88%;
+      padding:12px 14px;
+      border-radius:14px;
+      font-size:14px;
+    }
+
+    .msg.user{
+      background:#22345d;
+      align-self:flex-end;
+    }
+
+    .msg.other{
+      background:#1e2948;
+      align-self:flex-start;
+    }
+
+    .msg.assistant{
+      background:rgba(122,216,154,0.12);
+      border:1px solid rgba(122,216,154,0.25);
+      align-self:flex-start;
+    }
+
+    .section{
+      padding:26px 0;
+    }
+
+    .section h2{
+      font-size:34px;
+      margin:0 0 16px;
+      letter-spacing:-0.02em;
+    }
+
+    .section p.lead{
+      color:var(--muted);
+      max-width:850px;
+      margin-top:0;
+      font-size:18px;
+    }
+
+    .cards{
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:18px;
+      margin-top:24px;
+    }
+
+    .card{
+      background:linear-gradient(180deg, var(--card), var(--card2));
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      padding:22px;
+      box-shadow:var(--shadow);
+    }
+
+    .card h3{
+      margin:0 0 10px;
+      font-size:20px;
+    }
+
+    .card p{
+      margin:0;
+      color:var(--muted);
+      font-size:15px;
+    }
+
+    .feature-grid{
+      display:grid;
+      grid-template-columns:repeat(2, 1fr);
+      gap:18px;
+      margin-top:24px;
+    }
+
+    .feature{
+      background:linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:22px;
+    }
+
+    .feature h3{
+      margin:0 0 8px;
+      font-size:20px;
+    }
+
+    .feature p{
+      margin:0 0 12px;
+      color:var(--muted);
+    }
+
+    .feature ul{
+      margin:0;
+      padding-left:18px;
+      color:var(--text);
+    }
+
+    .feature li{
+      margin:6px 0;
+    }
+
+    .whitepaper{
+      margin-top:20px;
+      display:grid;
+      gap:16px;
+    }
+
+    .paper-block{
+      background:linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.015));
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:24px;
+    }
+
+    .paper-block h3{
+      margin:0 0 10px;
+      font-size:24px;
+    }
+
+    .paper-block p, .paper-block li{
+      color:var(--muted);
+      font-size:16px;
+    }
+
+    .paper-block ul{
+      margin:10px 0 0;
+      padding-left:20px;
+    }
+
+    .mvp-ui{
+      margin-top:22px;
+      background:linear-gradient(180deg, #121b31, #0f1627);
+      border:1px solid var(--line);
+      border-radius:24px;
+      overflow:hidden;
+      box-shadow:var(--shadow);
+    }
+
+    .mvp-topbar{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:16px;
+      padding:14px 18px;
+      border-bottom:1px solid var(--line);
+      background:rgba(255,255,255,0.03);
+    }
+
+    .mvp-topbar .title{
+      font-weight:700;
+      font-size:15px;
+    }
+
+    .mvp-layout{
+      display:grid;
+      grid-template-columns:240px 1fr 290px;
+      min-height:520px;
+    }
+
+    .panel{
+      padding:18px;
+    }
+
+    .panel.left{
+      border-right:1px solid var(--line);
+      background:rgba(255,255,255,0.02);
+    }
+
+    .panel.right{
+      border-left:1px solid var(--line);
+      background:rgba(255,255,255,0.02);
+    }
+
+    .conv{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      padding:12px 12px;
+      border-radius:12px;
+      background:rgba(255,255,255,0.03);
+      margin-bottom:10px;
+      border:1px solid rgba(255,255,255,0.05);
+      font-size:14px;
+    }
+
+    .conv.active{
+      background:rgba(90,166,255,0.11);
+      border-color:rgba(90,166,255,0.35);
+    }
+
+    .badge{
+      font-size:11px;
+      padding:4px 8px;
+      border-radius:999px;
+      background:rgba(255,255,255,0.08);
+      color:var(--muted);
+      white-space:nowrap;
+    }
+
+    .chat-main{
+      display:flex;
+      flex-direction:column;
+      height:100%;
+    }
+
+    .chat-stream{
+      flex:1;
+      padding:20px;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+
+    .composer{
+      border-top:1px solid var(--line);
+      padding:14px 18px;
+      color:var(--muted);
+      font-size:14px;
+      background:rgba(255,255,255,0.02);
+    }
+
+    .topic-list, .decision-list{
+      display:grid;
+      gap:10px;
+      margin-top:12px;
+    }
+
+    .topic, .decision{
+      padding:10px 12px;
+      border-radius:12px;
+      background:rgba(255,255,255,0.04);
+      border:1px solid rgba(255,255,255,0.06);
+      font-size:14px;
+    }
+
+    .topic .state{
+      color:var(--warn);
+      font-size:12px;
+      margin-left:8px;
+    }
+
+    .decision .state{
+      color:var(--ok);
+      font-size:12px;
+      margin-left:8px;
+    }
+
+    .cta{
+      text-align:center;
+      padding:56px 0 70px;
+    }
+
+    .cta-box{
+      max-width:900px;
+      margin:0 auto;
+      background:linear-gradient(180deg, rgba(90,166,255,0.14), rgba(90,166,255,0.06));
+      border:1px solid rgba(90,166,255,0.26);
+      border-radius:24px;
+      padding:32px 24px;
+      box-shadow:var(--shadow);
+    }
+
+    .cta h2{
+      margin:0 0 12px;
+      font-size:34px;
+    }
+
+    .cta p{
+      color:var(--muted);
+      font-size:18px;
+      margin:0 auto 18px;
+      max-width:760px;
+    }
+
+    .button{
+      display:inline-block;
+      padding:14px 20px;
+      border-radius:14px;
+      background:linear-gradient(135deg, var(--accent), var(--accent2));
+      color:#08111f;
+      font-weight:700;
+      text-decoration:none;
+      box-shadow:var(--shadow);
+    }
+
+    footer{
+      border-top:1px solid var(--line);
+      color:var(--muted);
+      font-size:14px;
+      padding:22px 0 34px;
+    }
+
+    code.inline{
+      background:rgba(255,255,255,0.08);
+      padding:3px 8px;
+      border-radius:8px;
+      color:#fff;
+      font-family:Consolas, monospace;
+      font-size:14px;
+    }
+
+    @media (max-width: 980px){
+      .hero-grid,
+      .cards,
+      .feature-grid,
+      .mvp-layout{
+        grid-template-columns:1fr;
+      }
+
+      .mini-body{
+        grid-template-columns:1fr;
+      }
+
+      .mini-sidebar{
+        border-right:none;
+        border-bottom:1px solid var(--line);
+      }
+
+      h1{font-size:38px}
+      .positioning .line{font-size:20px}
+    }
+
+    @media (max-width: 640px){
+      .container{width:min(var(--max), calc(100% - 24px))}
+      .nav{min-height:64px}
+      .nav-links{display:none}
+      .hero{padding:48px 0 28px}
+      h1{font-size:32px}
+      .section h2, .cta h2{font-size:28px}
+      .paper-block, .card, .feature{padding:18px}
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="container nav">
+      <div class="logo">
+        <div class="logo-badge">T</div>
+        <span>TalkTo</span>
+      </div>
+      <nav class="nav-links">
+        <a href="#concept">Concept</a>
+        <a href="#features">Features</a>
+        <a href="#whitepaper">Whitepaper</a>
+        <a href="#ui">MVP UI</a>
+        <a href="#vision">Vision</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <div class="eyebrow">AI-Assisted Conversations</div>
+          <h1>Better conversations, not more messages.</h1>
+          <p>Assisted communication keeps conversations clear and prevents misunderstandings.</p>
+          <p>
+            TalkTo is a new communication layer where intelligent assistants help people keep discussions clear, structured, and manageable — without replacing human participants.
+          </p>
+
+          <div class="positioning">
+            <strong>Positioning Statement</strong>
+            <div class="line">
+              TalkTo turns messy digital chats into clear, structured, AI-assisted conversations.
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-card">
+          <div class="mini-app">
+            <div class="mini-top">
+              <span class="dot red"></span>
+              <span class="dot yellow"></span>
+              <span class="dot green"></span>
+            </div>
+            <div class="mini-body">
+              <div class="mini-sidebar">
+                <div class="side-title">Conversations</div>
+                <div class="chat-item active">Pool Project <span class="blue-dot"></span></div>
+                <div class="chat-item">Affiliate Partner</div>
+                <div class="chat-item">Website Redesign <span class="blue-dot"></span></div>
+                <div class="chat-item">Publisher Deal</div>
+              </div>
+              <div class="mini-chat">
+                <div class="msg other">Emanuel: The pool materials will be ready in 3 weeks.</div>
+                <div class="msg user">Harry: Does that include installation?</div>
+                <div class="msg other">Emanuel: No, only the materials.</div>
+                <div class="msg assistant">Assistant: It may be helpful to clarify whether installation timing is still open.</div>
+                <div class="msg assistant">Assistant summary: Price agreed. Delivery of materials confirmed. Heating and rainwater tank still open.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+        <section class="section" id="concept">
+        <div class="container">
+            <h2>The Problem</h2>
+            <p class="lead">Humans are not very good at text communication. In real life we rely on tone, gestures, and immediate feedback to avoid misunderstandings. Text conversations remove those signals.</p>
+            <p class="lead">The result is familiar to everyone:</p>
+            <ul>
+                <li>long message threads</li>
+                <li>misunderstandings</li>
+                <li>lost context</li>
+                <li>forgotten decisions</li>
+            </ul>
+            <p class="lead">ChatACM helps people communicate more clearly by adding personal assistants to conversations.</p>
+            <h2>How it Works</h2>
+            <div class="cards">
+                <div class="card">
+                    <h3>Human Conversation</h3>
+                    <p>People communicate normally. The conversation stays simple and human.</p>
+                </div>
+                <div class="card">
+                    <h3>Private Assistants</h3>
+                    <p>Each participant has a personal assistant that helps privately by explaining messages, suggesting replies, and summarizing discussions.</p>
+                </div>
+                <div class="card">
+                    <h3>Conversation Memory</h3>
+                    <p>Assistants remember contacts, decisions, open questions and important information so nothing gets lost in the conversation history.</p>
+                </div>
+            </div>
+            <h2>Example</h2>
+            <div class="box">
+                <p>
+                    <strong>Conversation:</strong>
+                </p>
+                <div class="example">
+                    Emanuel ● The contact person is Matteo Morzenti.<br> Harry ● Perfect, I will contact him to schedule the visit.
+                </div>
+                <p>
+                    <strong>Harry's assistant (private):</strong>
+                </p>
+                <div class="example">
+                    Contact detected: Matteo Morzenti<br> Next step: Schedule the site visit.<br> Suggested reply: Buongiorno Matteo...
+                </div>
+                <p>The assistant helps privately, but the conversation itself remains clean.</p>
+            </div>
+            <h2>Transparent Assistance</h2>
+            <p class="lead">ChatACM avoids the "black box AI" problem. Every message shows where it comes from.</p>
+            <ul>
+                <li>human message</li>
+                <li>assistant suggestion</li>
+                <li>imported email or chat message</li>
+            </ul>
+            <p class="lead">
+                Users can inspect messages using <strong>Show Origin</strong> to see how they were created.
+            </p>
+            <h2>The E-Bike Principle</h2>
+            <p class="lead">ChatACM does not replace human communication.</p>
+            <p class="lead">
+                It works like an <strong>e-bike</strong>: you still do the work, but the system helps where things become difficult.
+            </p>
+            <ul>
+                <li>clarifies messages</li>
+                <li>suggests replies</li>
+                <li>tracks decisions</li>
+                <li>summarizes conversations</li>
+                <li>remembers context</li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="section" id="features">
+      <div class="container">
+        <h2>Core AI-Assisted Features</h2>
+        <p class="lead">
+          These are the capabilities that make TalkTo fundamentally different from standard messaging tools.
+        </p>
+
+        <div class="feature-grid">
+          <div class="feature">
+            <h3>Conversation Memory</h3>
+            <p>Assistants maintain structured summaries of each conversation.</p>
+            <ul>
+              <li>Key facts</li>
+              <li>Agreements</li>
+              <li>Open questions</li>
+              <li>Previous quotes and decisions</li>
+            </ul>
+          </div>
+
+          <div class="feature">
+            <h3>Automatic Topic Detection</h3>
+            <p>Multiple topics are detected and organized automatically instead of being buried inside one long timeline.</p>
+            <ul>
+              <li>Price</li>
+              <li>Delivery</li>
+              <li>Specifications</li>
+              <li>Technical questions</li>
+            </ul>
+          </div>
+
+          <div class="feature">
+            <h3>Decision Tracking</h3>
+            <p>Assistants identify and record decisions made during discussions.</p>
+            <ul>
+              <li>Price confirmed</li>
+              <li>Delivery accepted</li>
+              <li>Specifications agreed</li>
+            </ul>
+          </div>
+
+          <div class="feature">
+            <h3>Conversation State Detection</h3>
+            <p>The assistant understands where each topic stands.</p>
+            <ul>
+              <li>Question asked</li>
+              <li>Answer received</li>
+              <li>Clarification needed</li>
+              <li>Waiting for response</li>
+              <li>Resolved</li>
+            </ul>
+          </div>
+
+          <div class="feature">
+            <h3>Attention Signals</h3>
+            <p>Users are only notified when their input is actually required.</p>
+            <ul>
+              <li>Waiting for you</li>
+              <li>Waiting for the other participant</li>
+              <li>Decision required</li>
+              <li>Resolved</li>
+            </ul>
+          </div>
+
+          <div class="feature">
+            <h3>Conversation Map</h3>
+            <p>Discussions can be viewed as a structured map of topics and decisions instead of only as a message stream.</p>
+            <ul>
+              <li>Navigate by topic</li>
+              <li>See open vs resolved items</li>
+              <li>Reduce scrolling through chat history</li>
+            </ul>
+          </div>
+
+          <div class="feature">
+            <h3>Conversation Time Machine</h3>
+            <p>The assistant stores key events so users can jump directly to important moments.</p>
+            <ul>
+              <li>Topic created</li>
+              <li>Question asked</li>
+              <li>Quote received</li>
+              <li>Decision made</li>
+              <li>Topic resolved</li>
+            </ul>
+          </div>
+
+          <div class="feature">
+            <h3>Misunderstanding Detection</h3>
+            <p>The assistant can highlight possible ambiguity without taking over the discussion.</p>
+            <ul>
+              <li>Unclear wording</li>
+              <li>Conflicting statements</li>
+              <li>Possible wrong assumptions</li>
+            </ul>
+          </div>
+
+          <div class="feature">
+            <h3>Private Assistant Channel</h3>
+            <p>Each user has a private conversation with their own assistant.</p>
+            <ul>
+              <li>Summaries</li>
+              <li>Response suggestions</li>
+              <li>Pending decisions</li>
+              <li>Attention management</li>
+            </ul>
+          </div>
+
+          <div class="feature">
+            <h3>Personal Conversation Memory</h3>
+            <p>Even a single user can benefit by turning conversation history into searchable knowledge.</p>
+            <ul>
+              <li>Email threads</li>
+              <li>Chat discussions</li>
+              <li>Negotiations</li>
+              <li>Project conversations</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="whitepaper">
+      <div class="container">
+        <h2>Founder Whitepaper</h2>
+        <p class="lead">
+          A concise product narrative suitable for developers, early partners, and potential investors.
+        </p>
+
+        <div class="whitepaper">
+          <div class="paper-block">
+            <h3>Introduction</h3>
+            <p>
+              Digital communication tools today generate enormous volumes of messages but do little to help people manage conversations effectively.
+              Important information becomes buried in message history, misunderstandings arise easily, and decisions are difficult to track.
+              Humans communicate best through tone, gesture, and immediate feedback, but text-based communication removes these signals and forces people to repeatedly clarify or search through previous discussions.
+            </p>
+            <p>
+              TalkTo introduces a new communication layer where conversations are supported by intelligent assistants that help keep discussions organized, clear, and productive.
+              Instead of replacing people with AI, TalkTo introduces assistants that facilitate conversations by remembering context, summarizing progress, and highlighting when human attention is required.
+            </p>
+          </div>
+
+          <div class="paper-block">
+            <h3>Core Concept</h3>
+            <p>
+              TalkTo provides shared conversation spaces accessible through simple links such as
+              <code class="inline">talkto.me/harry</code>.
+              Anyone with the link can join a conversation. Participants may include real people and their personal assistants.
+            </p>
+            <p>
+              Assistants support the conversation but never replace the participants. Humans remain the final decision makers.
+            </p>
+          </div>
+
+          <div class="paper-block">
+            <h3>The Role of the Assistant</h3>
+            <p>The assistant helps by:</p>
+            <ul>
+              <li>remembering previous discussions</li>
+              <li>summarizing progress</li>
+              <li>translating languages</li>
+              <li>detecting misunderstandings</li>
+              <li>highlighting unresolved topics</li>
+              <li>notifying users when input is required</li>
+            </ul>
+            <p>
+              The assistant acts as a conversation facilitator, not a decision maker.
+            </p>
+          </div>
+
+          <div class="paper-block">
+            <h3>Conversation Memory</h3>
+            <p>
+              TalkTo assistants maintain a structured memory of each conversation. Instead of relying on long message histories,
+              users can ask simple questions such as:
+            </p>
+            <ul>
+              <li>What was the last quote?</li>
+              <li>Did we discuss heating?</li>
+              <li>What topics are still unresolved?</li>
+            </ul>
+          </div>
+
+          <div class="paper-block">
+            <h3>Automatic Topic Detection</h3>
+            <p>
+              Real conversations often involve multiple topics at the same time, but traditional messaging systems force everything into a single timeline.
+              TalkTo assistants automatically detect and organize topics such as price, delivery, specifications, installation, and open technical questions.
+            </p>
+          </div>
+
+          <div class="paper-block">
+            <h3>Decision Tracking</h3>
+            <p>
+              Assistants identify and record decisions made during conversations, such as confirmed price, accepted delivery, or agreed specifications.
+              This prevents confusion and ensures that agreements remain clearly documented.
+            </p>
+          </div>
+
+          <div class="paper-block">
+            <h3>Conversation State Detection</h3>
+            <p>
+              Assistants detect the state of each discussion, including question asked, answer provided, clarification needed,
+              waiting for response, agreement reached, and resolved. This allows the system to understand progress and determine what action may be required next.
+            </p>
+          </div>
+
+          <div class="paper-block">
+            <h3>Attention Management</h3>
+            <p>
+              Modern messaging platforms generate constant notifications, which quickly become overwhelming.
+              TalkTo introduces attention signals that notify users only when their input is required.
+            </p>
+            <ul>
+              <li>waiting for you</li>
+              <li>waiting for the other participant</li>
+              <li>decision required</li>
+              <li>resolved</li>
+            </ul>
+          </div>
+
+          <div class="paper-block">
+            <h3>Conversation Map</h3>
+            <p>
+              Instead of only showing a message timeline, TalkTo can present discussions as a map of topics and decisions,
+              allowing users to navigate directly to the part of the conversation that matters.
+            </p>
+          </div>
+
+          <div class="paper-block">
+            <h3>Conversation Time Machine</h3>
+            <p>
+              Assistants identify key moments in conversations and store them as events such as topic created, question asked,
+              quote received, decision made, and topic resolved. Users can jump directly to important moments instead of scrolling through message history.
+            </p>
+          </div>
+
+          <div class="paper-block">
+            <h3>Misunderstanding Detection</h3>
+            <p>
+              Because text communication lacks tone and immediate correction, misunderstandings are common.
+              Assistants help detect possible ambiguity and encourage clarification using careful, neutral language.
+            </p>
+          </div>
+
+          <div class="paper-block">
+            <h3>Private Assistant Channel</h3>
+            <p>
+              Each user has a private conversation with their assistant where summaries, unresolved issues, response suggestions,
+              and attention notifications can be presented without interrupting the main discussion.
+            </p>
+          </div>
+
+          <div class="paper-block">
+            <h3>Personal Conversation Memory</h3>
+            <p>
+              TalkTo can also act as a personal conversation memory system. The assistant can extract summaries, tasks,
+              decisions, and unresolved questions from email threads, chats, and project discussions.
+            </p>
+          </div>
+
+          <div class="paper-block">
+            <h3>Minimum Viable Product (MVP)</h3>
+            <ul>
+              <li>personal conversation link</li>
+              <li>shared chat interface</li>
+              <li>assistant participation</li>
+              <li>conversation memory</li>
+              <li>topic detection</li>
+              <li>decision tracking</li>
+              <li>private assistant channel</li>
+              <li>attention signals when input is required</li>
+            </ul>
+          </div>
+
+          <div class="paper-block">
+            <h3>Design Principles</h3>
+            <ul>
+              <li><strong style="color:#fff;">Human First:</strong> Assistants support people but never replace them.</li>
+              <li><strong style="color:#fff;">Clarity Over Speed:</strong> Better conversations matter more than faster conversations.</li>
+              <li><strong style="color:#fff;">Attention Filtering:</strong> Users should only be notified when their attention is needed.</li>
+              <li><strong style="color:#fff;">Model Independence:</strong> The system should work with multiple AI providers.</li>
+              <li><strong style="color:#fff;">User Ownership:</strong> Users retain control over identity and conversation data.</li>
+            </ul>
+          </div>
+
+          <div class="paper-block" id="vision">
+            <h3>Vision</h3>
+            <p>
+              Digital communication today produces enormous amounts of messages but very little structured knowledge.
+              TalkTo introduces a new communication layer where assistants help structure, remember, and clarify discussions.
+            </p>
+            <p>
+              Instead of simply sending messages, participants gain a conversation environment where important information remains accessible,
+              misunderstandings are reduced, decisions become clear, and conversations become easier to manage.
+            </p>
+            <p>
+              The long-term vision is a communication system where conversations naturally transform into structured knowledge while remaining human-centered.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="ui">
+      <div class="container">
+        <h2>MVP UI Layout</h2>
+        <p class="lead">
+          A simple product structure that immediately communicates the value of AI-assisted conversations.
+        </p>
+
+        <div class="mvp-ui">
+          <div class="mvp-topbar">
+            <div class="title">talkto.me/harry/pool-project</div>
+            <div class="badge">AI-assisted conversation</div>
+          </div>
+
+          <div class="mvp-layout">
+            <div class="panel left">
+              <div class="side-title">Conversations</div>
+
+              <div class="conv active">
+                <span>Pool Project <span class="blue-dot"></span></span>
+                <span class="badge">waiting for you</span>
+              </div>
+
+              <div class="conv">
+                <span>Affiliate Partner</span>
+                <span class="badge">waiting for them</span>
+              </div>
+
+              <div class="conv">
+                <span>Website Redesign <span class="blue-dot"></span></span>
+                <span class="badge">decision needed</span>
+              </div>
+
+              <div class="conv">
+                <span>Publisher Contract</span>
+                <span class="badge">resolved</span>
+              </div>
+            </div>
+
+            <div class="chat-main">
+              <div class="chat-stream">
+                <div class="msg other">Emanuel: The materials will be ready in 3 weeks.</div>
+                <div class="msg user">Harry: Does that include installation?</div>
+                <div class="msg other">Emanuel: No, only materials delivery.</div>
+                <div class="msg user">Harry: Ok. And what about heating?</div>
+                <div class="msg assistant">Assistant: Possible clarification point detected. Delivery timing appears to refer to materials only, not installation.</div>
+                <div class="msg assistant">Assistant summary: Price confirmed. Materials delivery confirmed. Heating and rainwater tank remain open topics.</div>
+              </div>
+              <div class="composer">Message box here · assistant support remains visible but non-intrusive</div>
+            </div>
+
+            <div class="panel right">
+              <div class="side-title">Conversation Map</div>
+              <div class="topic-list">
+                <div class="topic">Pool Size <span class="state">resolved</span></div>
+                <div class="topic">Price <span class="state">resolved</span></div>
+                <div class="topic">Delivery <span class="state">resolved</span></div>
+                <div class="topic">Heating <span class="state">open</span></div>
+                <div class="topic">Rainwater Tank <span class="state">open</span></div>
+              </div>
+
+              <div class="side-title" style="margin-top:20px;">Decisions</div>
+              <div class="decision-list">
+                <div class="decision">Pool size: 9 × 4 <span class="state">agreed</span></div>
+                <div class="decision">Price: €19,800 <span class="state">confirmed</span></div>
+                <div class="decision">Materials delivery: 3 weeks <span class="state">confirmed</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta">
+      <div class="container">
+        <div class="cta-box">
+          <h2>TalkTo is not another chat app.</h2>
+          <p>
+            It is a new communication layer where assistants help people keep conversations organized, understandable, and productive — while humans stay in control.
+          </p>
+          <a href="#whitepaper" class="button">Read the whitepaper</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      TalkTo — AI-assisted conversations.
+    </div>
+  </footer>
+
+</body>
+</html>
