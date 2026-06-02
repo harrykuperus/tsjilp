@@ -76,7 +76,7 @@ cd tsjilp
 cp .env.example .env
 ```
 
-Edit `.env` and add your database credentials and your OpenAI API key.
+Edit `.env` and add your OpenAI API key.
 
 See [.env.example](.env.example) for all available configuration options.
 
@@ -88,10 +88,10 @@ No database setup needed — Tsjilp uses SQLite and creates the database file au
 
 ### 4. Serve
 
-Point your web server (Nginx, Apache) at the `public/` directory, or use PHP's built-in server for local testing:
+Point your web server (Nginx, Apache) at the project root, or use PHP's built-in server for local testing:
 
 ```bash
-php -S localhost:8000 -t public/
+php -S localhost:8000
 ```
 
 ### Docker (coming soon)
