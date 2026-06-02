@@ -156,3 +156,9 @@ This means you are free to use, modify, and self-host Tsjilp. If you run a modif
 ## Author
 
 Built by [Harry Kuperus](https://github.com/harrykuperus) — [IMP Multimedia](https://www.imp-multimedia.com/)
+
+## Contact
+
+- **Questions and general contact:** [info@tsjilp.me](mailto:info@tsjilp.me)
+- **Security vulnerabilities:** See [SECURITY.md](SECURITY.md)
+- **Bug reports and feature requests:** [GitHub Issues](https://github.com/harrykuperus/tsjilp/issues)
